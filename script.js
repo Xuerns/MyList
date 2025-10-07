@@ -1,6 +1,8 @@
 document.querySelector(".container-myday").classList.add("on");
+
 // Open Sidebar
 function openSidebar() {
+  const listside = document.querySelectorAll(".to-do-list-sidebar")
   const openButton = document.querySelector(".sidebar");
   const appear = document.querySelectorAll(".appear");
   const appeartheme = document.querySelector(".appear-theme");
@@ -8,7 +10,11 @@ function openSidebar() {
   const onThisButton = document.querySelectorAll(".onThis");
 
   appeartheme.classList.toggle("non");
+  
   openButton.classList.toggle("open");
+  listside.forEach((side) => {
+    side.classList.toggle("open");
+  })
   onContainer.forEach((container) => {
     container.classList.toggle("open");
   });
@@ -215,10 +221,13 @@ function createNewTask(text) {
   console.log("Add New Task");
 }
 
+
+// Declaration for Appear
+const OffList = document.querySelectorAll(".container-list");
+
 // Sidebar Content Myday //
 function appearMyday() {
   const Onmyday = document.querySelector(".container-myday");
-  const OffList = document.querySelectorAll(".container-list");
 
   OffList.forEach((container) => {
     container.classList.remove("on");
@@ -231,7 +240,6 @@ function appearMyday() {
 // Sidebar Content Important //
 function appearImp() {
   const OnImp = document.querySelector(".container-important");
-  const OffList = document.querySelectorAll(".container-list");
 
   OffList.forEach((container) => {
     container.classList.remove("on");
@@ -244,7 +252,6 @@ function appearImp() {
 // Sidebar Content Planned //
 function appearPlan() {
   const OnPlan = document.querySelector(".container-planned");
-  const OffList = document.querySelectorAll(".container-list");
 
   OffList.forEach((container) => {
     container.classList.remove("on");
@@ -257,7 +264,6 @@ function appearPlan() {
 // sidebar Content Project //
 function appearProject() {
   const OnProject = document.querySelector(".container-project");
-  const OffList = document.querySelectorAll(".container-list");
 
   OffList.forEach((container) => {
     container.classList.remove("on");
@@ -270,7 +276,6 @@ function appearProject() {
 // Sidebar Content Task //
 function appearTask() {
   const OnTask = document.querySelector(".container-task");
-  const OffList = document.querySelectorAll(".container-list");
 
   OffList.forEach((container) => {
     container.classList.remove("on");
