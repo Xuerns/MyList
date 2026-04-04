@@ -9,5 +9,6 @@ import com.Mylist.demo.Users.Users;
 
 @Repository
 public interface SectionListRepository extends JpaRepository<SectionList, Long>  {
-    List<SectionList> findByUser(Users user);
+    List<SectionList> findByUserList(Users user);
+    SectionList findByUser(Users user);
 }

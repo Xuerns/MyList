@@ -29,6 +29,31 @@ public class SectionListService {
     public List<SectionList> getSectionLists(String email) {
         Users user = usersRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("User Not Found"));
-        return sectionListRepository.findByUser(user);
+        return sectionListRepository.findByUserList(user);
+    }
+
+    public SectionList updateSectionList(SectionRequest request, String email) {
+        Users user = usersRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not Found"));
+
+        SectionList updatedSectionList = sectionListRepository.findByUser(user);
+        if (updatedSectionList == null) {
+            throw new RuntimeException("Section List Not Found");
+        }
+        updatedSectionList.setTitle(request.getTitle());
+        return sectionListRepository.save(updatedSectionList);
+    }
+
+    public String deleteSectonList(String email) {
+        Users user = usersRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User Not Found"));
+
+        SectionList deletedSectionList = sectionListRepository.findByUser(user);
+
+        if (deletedSectionList == null) {
+            throw new RuntimeException("Section List Not Found");
+        }
+        sectionListRepository.delete(deletedSectionList);
+        return "Section List" + deletedSectionList.getTitle() + " Deleted Successfully";
     }
 }
