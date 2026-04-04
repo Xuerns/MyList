@@ -29,7 +29,7 @@ public class UsersController {
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
             Users user = usersService.register(request);
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok("User " + user.getUsername() +" registered successfully");
         } catch (RuntimeException error) {
             return ResponseEntity.badRequest().body(error.getMessage());
         }
