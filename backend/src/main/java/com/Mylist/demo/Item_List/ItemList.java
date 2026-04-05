@@ -37,7 +37,7 @@ public class ItemList {
     private String title;
 
     @Column(name = "is_done", nullable = false)
-    private Boolean is_done;
+    private Boolean isDone = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id", nullable = false)
@@ -45,5 +45,5 @@ public class ItemList {
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 }

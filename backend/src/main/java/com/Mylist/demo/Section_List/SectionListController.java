@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Mylist.demo.Section_List.dto.SectionRequest;
@@ -14,6 +15,9 @@ import com.Mylist.demo.Section_List.dto.SectionRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 
@@ -46,4 +50,26 @@ public class SectionListController {
         }
     }
     
+    @PutMapping("{sectionListId}")
+    public ResponseEntity<?> updateSectionList(@PathVariable Long sectionListId, @RequestBody SectionRequest request, Principal  principal) {
+        String email = principal.getName();
+        try {
+            SectionList updatedSectionList = sectionListService.updateSectionList(sectionListId, request, email);
+            return ResponseEntity.ok(updatedSectionList);
+        
+        } catch (RuntimeException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
+    }
+    
+    @DeleteMapping("{sectionListId}")
+    public ResponseEntity<?> deleteSectionList(@PathVariable Long sectionListId, Principal principal) {
+        String email = principal.getName();
+        try {
+            String responseMessage = sectionListService.deleteSectonList(sectionListId, email);
+            return ResponseEntity.ok(responseMessage);
+        } catch (RuntimeException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
+    }
 }
