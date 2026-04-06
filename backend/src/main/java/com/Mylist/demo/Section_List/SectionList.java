@@ -42,5 +42,8 @@ public class SectionList {
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime created_at;
+
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 }
 

@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Mylist.demo.Section_List.dto.SectionRequest;
 
@@ -21,18 +23,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
-@Controller
-@RequestMapping("/api/SectionLists")
+@RestController
+@RequestMapping("/api/sections")
 @CrossOrigin(origins = "*")
 public class SectionListController {
     @Autowired
     private SectionListService sectionListService;
 
     @PostMapping
-    public ResponseEntity<?> createSectionList(@RequestBody SectionRequest request, Principal principal) {
+    public ResponseEntity<?> createSectionList(@RequestParam("title") String title, @RequestParam(value = "image", required = false) MultipartFile image, Principal principal) {
         String email = principal.getName();
         try {
-            SectionList newSectionList = sectionListService.createSectionList(request, email);
+            SectionRequest request = new SectionRequest();
+            request.setTitle(title);
+            SectionList newSectionList = sectionListService.createSectionList(request, image, email);
             return ResponseEntity.ok(newSectionList);
         } catch (RuntimeException error) {
             return ResponseEntity.badRequest().body(error.getMessage());
@@ -50,7 +54,7 @@ public class SectionListController {
         }
     }
     
-    @PutMapping("{sectionListId}")
+    @PutMapping("/{sectionListId}")
     public ResponseEntity<?> updateSectionList(@PathVariable Long sectionListId, @RequestBody SectionRequest request, Principal  principal) {
         String email = principal.getName();
         try {
@@ -62,7 +66,7 @@ public class SectionListController {
         }
     }
     
-    @DeleteMapping("{sectionListId}")
+    @DeleteMapping("/{sectionListId}")
     public ResponseEntity<?> deleteSectionList(@PathVariable Long sectionListId, Principal principal) {
         String email = principal.getName();
         try {

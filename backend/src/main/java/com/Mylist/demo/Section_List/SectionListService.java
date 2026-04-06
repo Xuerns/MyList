@@ -6,25 +6,39 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Mylist.demo.Section_List.dto.SectionRequest;
 import com.Mylist.demo.Users.Users;
 import com.Mylist.demo.Users.UsersRepository;
+import com.Mylist.demo.utils.FileStorageService;
 
 @Service
 public class SectionListService {
+    
     @Autowired
     private SectionListRepository sectionListRepository;
+
     @Autowired
     private UsersRepository usersRepository;
 
-    public SectionList createSectionList(SectionRequest request, String email) {
+    @Autowired
+    private FileStorageService fileStorageService;
+
+    public SectionList createSectionList(SectionRequest request, MultipartFile image,String email) {
         Users user = usersRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("User Not Found"));
 
         SectionList sectionList = new SectionList();
         sectionList.setTitle(request.getTitle());
         sectionList.setUser(user);
+
+        // Ini buat validasi imagenya kosong 
+        if (image != null && !image.isEmpty()) {
+            String imageUrl = fileStorageService.storeFile(image);
+            sectionList.setImageUrl(imageUrl);
+        }
+
         return sectionListRepository.save(sectionList);
     }
 
