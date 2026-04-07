@@ -7,7 +7,7 @@ interface userStore {
 
     setUsername: (username: string) => void;
     setTheme: (theme: string) => void;
-    setIsLogin: () => void;
+    setIsLogin: (Descesion: boolean) => void;
 }
 
 export const useUserStore = create<userStore>()((set) => ({
@@ -17,5 +17,5 @@ export const useUserStore = create<userStore>()((set) => ({
 
     setUsername: (username) => set({username: username}),
     setTheme: (theme) => set({theme: theme}),
-    setIsLogin: () => set((state) => ({isLogin: !state.isLogin}))
+    setIsLogin: (descesion) => set({isLogin: descesion})
 }))

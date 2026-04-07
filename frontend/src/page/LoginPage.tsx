@@ -4,29 +4,35 @@ import Form from "../components/AuthPage/Form";
 import { useUserStore } from "../context/useUserStore";
 
 export default function LoginPage() {
-    const setUsername = useUserStore((state) => state.setUsername);
-    const setIsLogin = useUserStore((state) => state.setIsLogin)
-    const navigate = useNavigate();
+  const setUsername = useUserStore((state) => state.setUsername);
+  const setIsLogin = useUserStore((state) => state.setIsLogin);
+  const navigate = useNavigate();
 
-    const handleLogin = async (e: React.FormEvent, data: {email: string, password: string}) => {
-        e.preventDefault();
-        try {
-            const res = await authUserAPI.login({email: data.email, password: data.password})
+  const handleLogin = async (
+    e: React.FormEvent,
+    data: { email: string; password: string },
+  ) => {
+    e.preventDefault();
+    try {
+      const res = await authUserAPI.login({
+        email: data.email,
+        password: data.password,
+      });
 
-            localStorage.setItem("token", res.token);
+      localStorage.setItem("token", res.token);
 
-            setUsername(res.username);
-            setIsLogin();
-          navigate("/")
-            alert("Berhasil Coyy")
-        } catch (error) {
-            console.error(error)
-        }
+      setUsername(res.username);
+      setIsLogin(true);
+      navigate("/");
+      alert("Berhasil Coyy");
+    } catch (error) {
+      console.error(error);
     }
+  };
 
   return (
-    <div>
+    <div className="h-screen flex items-center justify-center">
       <Form typeForm="login" handleType={handleLogin}></Form>
     </div>
-  )
+  );
 }

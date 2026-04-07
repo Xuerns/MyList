@@ -1,19 +1,10 @@
-import { Route, Routes, useNavigate } from 'react-router'
+import { Route, Routes } from 'react-router'
 import Dashboard from './page/Dashboard'
 import LoginPage from './page/LoginPage'
 import RegisterPage from './page/RegisterPage'
-import { useEffect } from 'react'
-import { useUserStore } from './context/useUserStore'
 
 function App() {
-  const isLogin = useUserStore((state) => state.isLogin);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLogin) {
-      navigate("/")
-    }
-  }, [])
+  
 
   return (
     <>

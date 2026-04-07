@@ -3,7 +3,7 @@ import { authUserAPI } from "../api/authUser";
 
 export default function RegisterPage() {
 
-    const handleLogin = async (e: React.FormEvent, data: {username?: string, email: string, password: string}) => {
+    const handleRegister = async (e: React.FormEvent, data: {username?: string, email: string, password: string}) => {
         e.preventDefault();
         try {
 
@@ -19,8 +19,8 @@ export default function RegisterPage() {
     }
 
   return (
-    <>
-      <Form typeForm="register" handleType={handleLogin}></Form>
-    </>
+    <div className="h-screen flex items-center justify-center">
+      <Form typeForm="register" handleType={handleRegister}></Form>
+    </div>
   )
 }
