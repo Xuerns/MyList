@@ -49,6 +49,17 @@ public class ItemListController {
             return ResponseEntity.badRequest().body(error.getMessage());
         }
     } 
+
+    @GetMapping("completed")
+    public ResponseEntity<?> getCompletedItems(Principal principal) {
+        String email = principal.getName();
+        try {
+            List<ItemList> completedItems = itemListService.getCompletedItems(email);
+            return ResponseEntity.ok(completedItems);
+        } catch (RuntimeException error) {
+            return ResponseEntity.badRequest().body(error.getMessage());
+        }
+    }
   
     @PutMapping("/{itemListId}")
     public ResponseEntity<?> updateItemList(@PathVariable Long itemListId, @RequestBody UpdateList request, Principal principal) {

@@ -11,6 +11,8 @@ import com.Mylist.demo.Item_List.dto.ListRequest;
 import com.Mylist.demo.Item_List.dto.UpdateList;
 import com.Mylist.demo.Section_List.SectionList;
 import com.Mylist.demo.Section_List.SectionListRepository;
+import com.Mylist.demo.Users.Users;
+import com.Mylist.demo.Users.UsersRepository;
 
 @Service
 public class ItenListService {
@@ -19,6 +21,9 @@ public class ItenListService {
 
     @Autowired
     private SectionListRepository sectionListRepository;
+
+    @Autowired
+    private UsersRepository usersRepository;
 
     public ItemList createItemList(ListRequest request, Long SectionListId, String email) {
         SectionList sectionList = sectionListRepository.findById(SectionListId)
@@ -42,6 +47,12 @@ public class ItenListService {
             throw new RuntimeException("Unauthorized Access");
         }
         return itemListRepository.findBySectionList(sectionList);
+    }
+
+    public List<ItemList> getCompletedItems(String email) {
+        Users user = usersRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User Not Found"));
+        return itemListRepository.findBySectionList_UserAndIsDoneTrue(user);
     }
     
     public ItemList updateItemList(Long itemListId, UpdateList request, String email) {
@@ -68,3 +79,4 @@ public class ItenListService {
         return "Item List " + deletedItemList.getTitle() + " Deleted Successfully";
     }
 }
+
